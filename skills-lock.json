@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "skills": {
+    "brand-guidelines": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/brand-guidelines/SKILL.md",
+      "computedHash": "e48840db6ea772ceecdb68b4e50f8cc77e2534b7580aeaf4a6fe6ee7bd845d7d"
+    },
+    "brandkit": {
+      "source": "leonxlnx/taste-skill",
+      "sourceType": "github",
+      "skillPath": "skills/brandkit/SKILL.md",
+      "computedHash": "b63012f3c3d21197e0185d3e9cc7ec40c589fb10e0b5a32a561739de31aa3f20"
+    },
+    "critique": {
+      "source": "aladicf/better-web-ui",
+      "sourceType": "github",
+      "skillPath": "skills/critique/SKILL.md",
+      "computedHash": "328d3ddd8610003062946ed08c29ffd95b3f3cefc52c92993235112a8b1b8bff"
+    },
+    "gtm-0-to-1-launch": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/gtm-0-to-1-launch/SKILL.md",
+      "computedHash": "ef73238bfc0595dcb0282c734444339208cb8c0770afe89ab70c3db0ae091666"
+    },
+    "gtm-ai-gtm": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/gtm-ai-gtm/SKILL.md",
+      "computedHash": "179d38abc1184661ed008435cad0c88a343bb569b42554d943fadf5a4bcfc539"
+    },
+    "gtm-positioning-strategy": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/gtm-positioning-strategy/SKILL.md",
+      "computedHash": "ab8c31ebdb6abb7832e587a3e8755abdfa2e02e852dad1a8e76fd933eb27728e"
+    },
+    "gtm-product-led-growth": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/gtm-product-led-growth/SKILL.md",
+      "computedHash": "3b4c43f619bc1c294d5519a1bcaeb936e3690a90c57bfecbfaed15a6bc4dac4e"
+    },
+    "laravel-specialist": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-specialist/SKILL.md",
+      "computedHash": "3403773759d65079d1a31052b4a87c526a164eee343bf360dba00ee46dd4a6e4"
+    },
+    "nng-information-architecture": {
+      "source": "jpoindexter/theft-kit",
+      "sourceType": "github",
+      "skillPath": "nng-information-architecture/SKILL.md",
+      "computedHash": "8de40fc59e112fa46d4b22112542fce15d5ca6f7b53320d0cc805c6d9f845633"
+    },
+    "nng-mobile-tablet-ux": {
+      "source": "jpoindexter/theft-kit",
+      "sourceType": "github",
+      "skillPath": "nng-mobile-tablet-ux/SKILL.md",
+      "computedHash": "c0daebd5dbaea994bb6143f76c8efa4d1d1c9d9f8071d3489a17aa53bc9f62ee"
+    },
+    "nng-ux-heuristics": {
+      "source": "phazurlabs/sumi",
+      "sourceType": "github",
+      "skillPath": "skills/nng-ux-heuristics/SKILL.md",
+      "computedHash": "f7accb85a25b82ac8c39186d6ad917c2451731eea7b2c96a84dcc97901d7bf7c"
+    },
+    "nx-workspace": {
+      "source": "nrwl/nx-ai-agents-config",
+      "sourceType": "github",
+      "skillPath": "skills/nx-workspace/SKILL.md",
+      "computedHash": "93c1a07cb550b8b85ce62ccd2481073b6ab520be86d1a910686054d8096207a7"
+    },
+    "ui-ux-pro-max": {
+      "source": "tyfarrago-hub/taste",
+      "sourceType": "github",
+      "skillPath": "skills/ui-ux-pro-max/SKILL.md",
+      "computedHash": "85745980494a4f9a8064b5f2139a36f775a4c910b857d3e1a6befb8db928ad91"
+    },
+    "ux-heuristics": {
+      "source": "wondelai/skills",
+      "sourceType": "github",
+      "skillPath": "ux-heuristics/SKILL.md",
+      "computedHash": "078959463a4d191d3ff17fd7a0b036697c79da3e86102251c98f76ffa9e66a28"
+    }
+  }
+}
