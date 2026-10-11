@@ -35,6 +35,16 @@ RUN composer install \
 
 COPY . .
 
+# .dockerignore omits writable storage trees; recreate them for build-time Artisan.
+RUN mkdir -p \
+        bootstrap/cache \
+        storage/app/public \
+        storage/app/private \
+        storage/framework/cache/data \
+        storage/framework/sessions \
+        storage/framework/views \
+        storage/logs
+
 # Dummy key only for build-time artisan; Dokploy must set a real APP_KEY at runtime.
 ARG APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 
