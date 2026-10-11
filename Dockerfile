@@ -35,25 +35,27 @@ RUN composer install \
 
 COPY . .
 
-ENV APP_ENV=production \
-    APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+# Dummy key only for build-time artisan; Dokploy must set a real APP_KEY at runtime.
+ARG APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 
-RUN composer dump-autoload --optimize --no-dev \
-    && php artisan package:discover --ansi --no-interaction
+RUN APP_ENV=production APP_KEY="$APP_KEY" composer dump-autoload --optimize --no-dev \
+    && APP_ENV=production APP_KEY="$APP_KEY" php artisan package:discover --ansi --no-interaction
 
 FROM vendor AS assets
 
+# Copy Node intact; Docker resolves npm/npx symlinks if you COPY the bin paths directly.
 COPY --from=node:22-bookworm /usr/local/bin/node /usr/local/bin/node
-COPY --from=node:22-bookworm /usr/local/bin/npm /usr/local/bin/npm
-COPY --from=node:22-bookworm /usr/local/bin/npx /usr/local/bin/npx
 COPY --from=node:22-bookworm /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+    && ln -sf /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
 
-RUN npm ci
-
+ARG APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 ARG VITE_APP_NAME=Cylo
 ENV VITE_APP_NAME=${VITE_APP_NAME}
 
-RUN npm run build
+RUN APP_ENV=production APP_KEY="$APP_KEY" php artisan wayfinder:generate --with-form --no-interaction \
+    && npm ci \
+    && npm run build
 
 FROM php AS runtime
 
