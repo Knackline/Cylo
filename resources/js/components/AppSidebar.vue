@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from '@lucide/vue';
+import { BookOpen, FolderGit2, GitBranch, LayoutGrid } from '@lucide/vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -27,15 +27,10 @@ const mainNavItems: NavItem[] = [
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
+        title: 'Github',
         href: 'https://github.com/Knackline/Cylo',
-        icon: FolderGit2,
-    },
-    {
-        title: 'README',
-        href: 'https://github.com/Knackline/Cylo#readme',
-        icon: BookOpen,
-    },
+        icon: GitBranch,
+    }
 ];
 </script>
 
