@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
@@ -18,6 +19,15 @@ class ExampleTest extends TestCase
         $response->assertInertia(fn (Assert $page) => $page
             ->component('Welcome')
             ->where('auth.user', null));
+    }
+
+    public function test_authenticated_users_are_redirected_to_the_dashboard()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('home'));
+
+        $response->assertRedirect(route('dashboard'));
     }
 
     public function test_welcome_page_includes_hero_heading()
