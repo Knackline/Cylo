@@ -28,13 +28,14 @@ class DashboardTest extends TestCase
             ->component('Dashboard'));
     }
 
-    public function test_dashboard_page_includes_mock_control_plane_copy()
+    public function test_dashboard_page_includes_operations_console_copy()
     {
         $dashboard = file_get_contents(resource_path('js/pages/Dashboard.vue'));
 
         $this->assertNotFalse($dashboard);
-        $this->assertStringContainsString('Mock control plane', $dashboard);
-        $this->assertStringContainsString('Human gates', $dashboard);
-        $this->assertStringContainsString('Recent runs', $dashboard);
+        $this->assertStringContainsString('Work queue', $dashboard);
+        $this->assertStringContainsString('Needs review', $dashboard);
+        $this->assertStringContainsString('webhook-service', $dashboard);
+        $this->assertStringContainsString('Sample data', $dashboard);
     }
 }

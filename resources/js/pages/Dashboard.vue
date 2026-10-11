@@ -1,24 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import {
-    Bot,
-    CircleAlert,
-    GitPullRequest,
-    Hourglass,
-    Radio,
-    TrendingUp,
-} from '@lucide/vue';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Separator } from '@/components/ui/separator';
 import { dashboard } from '@/routes';
 
 defineOptions({
@@ -32,407 +14,367 @@ defineOptions({
     },
 });
 
-type RunStatus =
-    | 'triaging'
-    | 'awaiting_gate'
-    | 'implementing'
-    | 'draft_pr'
-    | 'merged';
+type Tone = 'active' | 'attention' | 'quiet';
 
-type GateKind = 'confidence' | 'plan' | 'merge';
+type JobStatus =
+    | 'Investigating'
+    | 'Needs review'
+    | 'Awaiting approval'
+    | 'Developing'
+    | 'Reviewing'
+    | 'Merged';
+
+const toneClass: Record<Tone, string> = {
+    active: 'bg-forest-400',
+    attention: 'bg-gold-400',
+    quiet: 'bg-stone-400',
+};
 
 const metrics = [
     {
-        label: 'Agent runs',
+        label: 'Runs this week',
         value: '128',
-        delta: '+12%',
-        detail: 'Structured events this week',
-        icon: Radio,
+        detail: '+12% agent run events',
     },
     {
-        label: 'Awaiting gates',
+        label: 'Needs review',
         value: '7',
-        delta: '3 urgent',
-        detail: 'Human review before the next step',
-        icon: Hourglass,
+        detail: '3 waiting on a person',
     },
     {
         label: 'Draft PRs',
         value: '11',
-        delta: 'built',
-        detail: 'Agents propose — you merge',
-        icon: GitPullRequest,
+        detail: 'Labeled ai-built',
     },
     {
-        label: 'Diagnosis KB',
+        label: 'Triage KB',
         value: '312',
-        delta: '+21%',
-        detail: 'Searchable cases for next triage',
-        icon: TrendingUp,
+        detail: '+21% past diagnoses',
     },
 ] as const;
 
-const runs: {
-    id: string;
-    signal: string;
-    source: string;
-    path: 'Bug' | 'Feature';
+const runtime = [
+    { name: 'webhook-service', state: 'Up', tone: 'active' },
+    { name: 'channel-router', state: 'Up', tone: 'active' },
+    { name: 'bug-triage-agent', state: 'Running', tone: 'active' },
+    { name: 'bug-fix-agent', state: 'Waiting', tone: 'attention' },
+    { name: 'feature-agent', state: 'Running', tone: 'active' },
+    { name: 'metrics-enrichment-agent', state: 'Scheduled', tone: 'quiet' },
+    { name: 'support-rotation-agent', state: 'Idle', tone: 'quiet' },
+] as const;
+
+const queue: {
+    key: string;
+    work: string;
+    intake: string;
     agent: string;
-    status: RunStatus;
+    status: JobStatus;
     confidence: number | null;
     updated: string;
 }[] = [
     {
-        id: 'run_18f2',
-        signal: 'Payment webhook null intent',
-        source: 'Sentry',
-        path: 'Bug',
-        agent: 'Triage',
-        status: 'triaging',
+        key: 'ZD-1842',
+        work: 'Payment webhook null intent',
+        intake: 'Zendesk',
+        agent: 'bug-triage',
+        status: 'Investigating',
         confidence: 0.91,
         updated: '2m ago',
     },
     {
-        id: 'run_17c9',
-        signal: 'Invoice PDF missing line items',
-        source: 'Slack',
-        path: 'Bug',
-        agent: 'Fix',
-        status: 'awaiting_gate',
+        key: 'SL-1831',
+        work: 'Invoice PDF missing line items',
+        intake: 'Slack',
+        agent: 'bug-triage',
+        status: 'Needs review',
         confidence: 0.54,
         updated: '18m ago',
     },
     {
-        id: 'run_16a1',
-        signal: 'Self-serve seat transfer',
-        source: 'Linear',
-        path: 'Feature',
-        agent: 'Feature',
-        status: 'awaiting_gate',
+        key: 'PROJ-441',
+        work: 'Self-serve seat transfer',
+        intake: 'Jira',
+        agent: 'feature',
+        status: 'Awaiting approval',
         confidence: null,
         updated: '41m ago',
     },
     {
-        id: 'run_15e4',
-        signal: 'Retry storm on checkout webhook',
-        source: 'Ticket',
-        path: 'Bug',
-        agent: 'Fix',
-        status: 'draft_pr',
+        key: 'ZD-1794',
+        work: 'Retry storm on checkout webhook',
+        intake: 'Zendesk',
+        agent: 'bug-fix',
+        status: 'Reviewing',
         confidence: 0.88,
         updated: '2h ago',
     },
     {
-        id: 'run_14b7',
-        signal: 'SSO role mapping for contractors',
-        source: 'Linear',
-        path: 'Feature',
-        agent: 'Feature',
-        status: 'implementing',
+        key: 'PROJ-438',
+        work: 'SSO role mapping for contractors',
+        intake: 'Jira',
+        agent: 'feature',
+        status: 'Developing',
         confidence: null,
         updated: '3h ago',
     },
     {
-        id: 'run_13d2',
-        signal: 'Null payment_intent after retry',
-        source: 'Sentry',
-        path: 'Bug',
-        agent: 'Metrics',
-        status: 'merged',
+        key: 'ERR-2201',
+        work: 'Null payment_intent after retry',
+        intake: 'Error Reporting',
+        agent: 'bug-fix',
+        status: 'Merged',
         confidence: 0.93,
         updated: 'Yesterday',
     },
 ];
 
-const gates: {
-    id: string;
-    kind: GateKind;
-    runId: string;
-    title: string;
-    detail: string;
-    severity: 'high' | 'medium';
-}[] = [
+const reviews = [
     {
-        id: 'gate_01',
-        kind: 'confidence',
-        runId: 'run_17c9',
-        title: 'Review low-confidence diagnosis',
-        detail: 'Confidence 0.54 · needs_human_review before Fix starts',
-        severity: 'high',
+        key: 'SL-1831',
+        title: 'Review diagnosis',
+        detail: 'Confidence 0.54 is below 0.60. Accept or override before a fix starts.',
     },
     {
-        id: 'gate_02',
-        kind: 'plan',
-        runId: 'run_16a1',
+        key: 'PROJ-441',
         title: 'Approve feature plan',
-        detail: 'Two blocking questions on seat transfer edge cases',
-        severity: 'high',
+        detail: 'Blocking questions on seat transfer. Add ai-implement-approved to continue.',
     },
     {
-        id: 'gate_03',
-        kind: 'merge',
-        runId: 'run_15e4',
-        title: 'Merge draft PR',
-        detail: 'PR #842 · labeled built · agents never promote',
-        severity: 'medium',
+        key: 'ZD-1794',
+        title: 'Review draft pull request',
+        detail: 'Labeled ai-built. The agent opened the pull request. A person merges it.',
     },
-];
-
-const agents = [
-    { name: 'Router', status: 'idle', detail: 'Auth · classify · dispatch' },
-    { name: 'Triage', status: 'active', detail: '1 live diagnosis' },
-    { name: 'Fix', status: 'hold', detail: 'Awaiting gate' },
-    { name: 'Feature', status: 'active', detail: 'Implement in progress' },
-    { name: 'Metrics', status: 'idle', detail: 'Learn loop ready' },
 ] as const;
 
-const statusLabel: Record<RunStatus, string> = {
-    triaging: 'Triage',
-    awaiting_gate: 'Gate',
-    implementing: 'Implement',
-    draft_pr: 'Draft PR',
-    merged: 'Merged',
-};
+function statusTone(status: JobStatus): Tone {
+    if (
+        status === 'Needs review' ||
+        status === 'Awaiting approval' ||
+        status === 'Reviewing'
+    ) {
+        return 'attention';
+    }
 
-const gateLabel: Record<GateKind, string> = {
-    confidence: 'Confidence',
-    plan: 'Plan',
-    merge: 'Merge',
-};
+    if (status === 'Merged') {
+        return 'quiet';
+    }
+
+    return 'active';
+}
 </script>
 
 <template>
     <Head title="Dashboard" />
 
-    <div class="flex h-full flex-1 flex-col gap-6 overflow-x-auto p-4 md:p-6">
-        <Alert
-            class="border-gold/35 bg-gold-50 text-foreground dark:border-gold/30 dark:bg-card"
+    <div class="flex h-full flex-1 flex-col gap-4 p-4 md:p-6">
+        <div
+            class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
         >
-            <CircleAlert class="size-4 text-gold-700 dark:text-gold-400" />
-            <AlertTitle class="font-display">Mock control plane</AlertTitle>
-            <AlertDescription class="text-muted-foreground">
-                Sample runs, gates, and agent activity for demos and local
-                development. Live integrations will replace this data.
-            </AlertDescription>
-        </Alert>
-
-        <div class="flex flex-col gap-1">
-            <h1
-                class="font-display text-3xl font-semibold tracking-tight text-foreground"
-            >
-                Dashboard
-            </h1>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-                Signals in. Specialized agents out. You own the gates.
-            </p>
-        </div>
-
-        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <Card
-                v-for="metric in metrics"
-                :key="metric.label"
-                class="border-border/80 bg-card shadow-none"
-            >
-                <CardHeader class="pb-2">
-                    <div class="flex items-start justify-between gap-3">
-                        <CardDescription class="font-mono text-[11px] tracking-wide uppercase">{{
-                            metric.label
-                        }}</CardDescription>
-                        <component
-                            :is="metric.icon"
-                            class="size-4 text-muted-foreground"
-                        />
-                    </div>
-                    <CardTitle
-                        class="font-display text-3xl font-semibold tracking-tight text-foreground tabular-nums"
-                    >
-                        {{ metric.value }}
-                    </CardTitle>
-                </CardHeader>
-                <CardContent class="space-y-1">
-                    <Badge
-                        variant="outline"
-                        class="border-gold/50 font-mono text-[10px] tracking-wide text-gold-700 uppercase dark:border-gold-400/40 dark:text-gold-400"
-                    >
-                        {{ metric.delta }}
-                    </Badge>
-                    <p class="text-sm text-muted-foreground">
-                        {{ metric.detail }}
-                    </p>
-                </CardContent>
-            </Card>
-        </div>
-
-        <div class="grid gap-4 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-            <Card class="border-border/80 bg-card shadow-none">
-                <CardHeader>
-                    <CardTitle class="font-display text-lg tracking-tight"
-                        >Recent runs</CardTitle
-                    >
-                    <CardDescription>
-                        Inspectable agent cycles from tickets, Slack, issues, and
-                        errors.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent class="space-y-0 p-0">
-                    <ul class="divide-y divide-border">
-                        <li
-                            v-for="run in runs"
-                            :key="run.id"
-                            class="flex flex-col gap-3 px-6 py-4 sm:flex-row sm:items-center sm:justify-between"
-                        >
-                            <div class="min-w-0 space-y-1">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <span
-                                        class="font-mono text-xs text-muted-foreground"
-                                        >{{ run.id }}</span
-                                    >
-                                    <Badge variant="outline" class="font-mono text-[10px]">
-                                        {{ run.source }}
-                                    </Badge>
-                                    <Badge
-                                        variant="secondary"
-                                        class="font-mono text-[10px]"
-                                    >
-                                        {{ run.path }}
-                                    </Badge>
-                                </div>
-                                <p class="truncate font-medium">
-                                    {{ run.signal }}
-                                </p>
-                                <p class="font-mono text-xs text-muted-foreground">
-                                    {{ run.agent }} · {{ run.updated }}
-                                </p>
-                            </div>
-
-                            <div
-                                class="flex shrink-0 flex-col items-start gap-2 sm:items-end"
-                            >
-                                <Badge
-                                    :variant="
-                                        run.status === 'awaiting_gate'
-                                            ? 'default'
-                                            : 'outline'
-                                    "
-                                    class="font-mono text-[10px] tracking-wide uppercase"
-                                >
-                                    {{ statusLabel[run.status] }}
-                                </Badge>
-                                <div
-                                    v-if="run.confidence !== null"
-                                    class="flex w-36 items-center gap-2"
-                                >
-                                    <Progress
-                                        :model-value="Math.round(run.confidence * 100)"
-                                        class="h-1.5"
-                                    />
-                                    <span
-                                        class="font-mono text-[10px] tabular-nums text-muted-foreground"
-                                    >
-                                        {{ run.confidence.toFixed(2) }}
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </CardContent>
-            </Card>
-
-            <div class="flex flex-col gap-4">
-                <Card class="border-border/80 bg-card shadow-none">
-                    <CardHeader>
-                        <CardTitle class="font-display text-lg tracking-tight"
-                            >Human gates</CardTitle
-                        >
-                        <CardDescription>
-                            Agents stop here. You resume, revise, or merge.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent class="space-y-3">
-                        <div
-                            v-for="gate in gates"
-                            :key="gate.id"
-                            class="rounded-lg border border-border p-4"
-                        >
-                            <div class="flex flex-wrap items-center gap-2">
-                                <Badge
-                                    variant="outline"
-                                    class="font-mono text-[10px] tracking-wide uppercase"
-                                >
-                                    {{ gateLabel[gate.kind] }}
-                                </Badge>
-                                <Badge
-                                    v-if="gate.severity === 'high'"
-                                    class="bg-gold-400 text-forest hover:bg-gold-300"
-                                >
-                                    Needs you
-                                </Badge>
-                                <span
-                                    class="font-mono text-xs text-muted-foreground"
-                                    >{{ gate.runId }}</span
-                                >
-                            </div>
-                            <p class="mt-2 font-medium">{{ gate.title }}</p>
-                            <p class="mt-1 text-sm text-muted-foreground">
-                                {{ gate.detail }}
-                            </p>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card class="border-border/80 bg-card shadow-none">
-                    <CardHeader>
-                        <CardTitle class="font-display text-lg tracking-tight"
-                            >Agent desk</CardTitle
-                        >
-                        <CardDescription>
-                            Thin router. Specialists own the work.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent class="space-y-3">
-                        <div
-                            v-for="(agent, index) in agents"
-                            :key="agent.name"
-                        >
-                            <div class="flex items-center justify-between gap-3">
-                                <div class="flex items-center gap-2.5">
-                                    <span
-                                        class="flex size-8 items-center justify-center rounded-md border border-border bg-muted/40"
-                                    >
-                                        <Bot class="size-4 text-muted-foreground" />
-                                    </span>
-                                    <div>
-                                        <p class="text-sm font-medium">
-                                            {{ agent.name }}
-                                        </p>
-                                        <p
-                                            class="font-mono text-[11px] text-muted-foreground"
-                                        >
-                                            {{ agent.detail }}
-                                        </p>
-                                    </div>
-                                </div>
-                                <span
-                                    :class="[
-                                        'font-mono text-[10px] tracking-wide uppercase',
-                                        agent.status === 'active'
-                                            ? 'text-gold-700 dark:text-gold-400'
-                                            : agent.status === 'hold'
-                                              ? 'text-gold-600 dark:text-gold-400/80'
-                                              : 'text-muted-foreground',
-                                    ]"
-                                >
-                                    {{ agent.status }}
-                                </span>
-                            </div>
-                            <Separator
-                                v-if="index < agents.length - 1"
-                                class="mt-3"
-                            />
-                        </div>
-                    </CardContent>
-                </Card>
+            <div class="max-w-3xl space-y-1">
+                <h1
+                    class="font-display text-2xl font-semibold tracking-tight text-foreground"
+                >
+                    Dashboard
+                </h1>
+                <p class="text-sm leading-relaxed text-muted-foreground">
+                   Summary of the latest data from the system.
+                </p>
             </div>
+            <Badge
+                variant="outline"
+                class="w-fit shrink-0 font-mono text-[10px] tracking-wide uppercase"
+            >
+               UNIMARKET
+            </Badge>
         </div>
+
+        <section
+            class="grid grid-cols-2 overflow-hidden rounded-lg border border-border bg-card lg:grid-cols-4"
+            aria-label="Summary"
+        >
+            <div
+                v-for="(metric, index) in metrics"
+                :key="metric.label"
+                :class="[
+                    'px-4 py-3.5',
+                    index === 0 || index === 2 ? 'border-r border-border' : '',
+                    index === 1 ? 'border-border lg:border-r' : '',
+                    index < 2 ? 'border-b border-border lg:border-b-0' : '',
+                ]"
+            >
+                <p class="text-xs text-muted-foreground">{{ metric.label }}</p>
+                <p
+                    class="mt-1 font-display text-2xl font-semibold tracking-tight text-foreground tabular-nums"
+                >
+                    {{ metric.value }}
+                </p>
+                <p class="mt-1 text-xs text-muted-foreground">
+                    {{ metric.detail }}
+                </p>
+            </div>
+        </section>
+
+        <section aria-labelledby="needs-review-heading">
+            <h2
+                id="needs-review-heading"
+                class="mb-2 font-display text-base font-semibold tracking-tight"
+            >
+                Needs review
+            </h2>
+            <ul class="grid gap-3 md:grid-cols-3">
+                <li
+                    v-for="review in reviews"
+                    :key="review.key"
+                    class="rounded-lg border border-border border-l-2 border-l-gold-400 bg-card px-4 py-3"
+                >
+                    <div class="flex items-baseline justify-between gap-3">
+                        <p class="text-sm font-medium">{{ review.title }}</p>
+                        <span
+                            class="shrink-0 font-mono text-xs text-muted-foreground"
+                            >{{ review.key }}</span
+                        >
+                    </div>
+                    <p class="mt-1 text-sm leading-relaxed text-muted-foreground">
+                        {{ review.detail }}
+                    </p>
+                </li>
+            </ul>
+        </section>
+
+        <section
+            class="overflow-hidden rounded-lg border border-border bg-card"
+            aria-labelledby="work-queue-heading"
+        >
+            <div class="border-b border-border px-4 py-3">
+                <h2
+                    id="work-queue-heading"
+                    class="font-display text-base font-semibold tracking-tight"
+                >
+                    Work queue
+                </h2>
+                <p class="mt-0.5 text-sm text-muted-foreground">
+                    Current jobs across intake, triage, fix, and feature.
+                </p>
+            </div>
+            <ul class="divide-y divide-border lg:hidden">
+                <li v-for="item in queue" :key="item.key" class="px-4 py-3">
+                    <div class="flex items-center justify-between gap-3">
+                        <span
+                            class="font-mono text-xs text-muted-foreground"
+                            >{{ item.key }}</span
+                        >
+                        <span class="text-xs text-muted-foreground">{{
+                            item.intake
+                        }}</span>
+                    </div>
+                    <p class="mt-1 font-medium">{{ item.work }}</p>
+                    <div
+                        class="mt-1.5 flex items-center justify-between gap-3"
+                    >
+                        <span class="inline-flex items-center gap-2 text-sm">
+                            <span
+                                class="size-1.5 shrink-0 rounded-full"
+                                :class="toneClass[statusTone(item.status)]"
+                            />
+                            <span>{{ item.status }}</span>
+                            <span
+                                v-if="item.confidence !== null"
+                                class="font-mono text-xs text-muted-foreground tabular-nums"
+                            >
+                                {{ item.confidence.toFixed(2) }}
+                            </span>
+                        </span>
+                        <span
+                            class="font-mono text-xs whitespace-nowrap text-muted-foreground"
+                            >{{ item.agent }} · {{ item.updated }}</span
+                        >
+                    </div>
+                </li>
+            </ul>
+            <div class="hidden overflow-x-auto lg:block">
+                <table class="w-full text-left text-sm">
+                    <thead
+                        class="border-b border-border bg-muted/40 text-xs text-muted-foreground"
+                    >
+                        <tr>
+                            <th class="px-4 py-2.5 font-medium whitespace-nowrap">
+                                Key
+                            </th>
+                            <th class="px-4 py-2.5 font-medium">Work</th>
+                            <th class="px-4 py-2.5 font-medium whitespace-nowrap">
+                                Intake
+                            </th>
+                            <th class="px-4 py-2.5 font-medium whitespace-nowrap">
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-border">
+                        <tr
+                            v-for="item in queue"
+                            :key="item.key"
+                            class="hover:bg-muted/30"
+                        >
+                            <td
+                                class="px-4 py-3 align-top font-mono text-xs whitespace-nowrap text-muted-foreground"
+                            >
+                                {{ item.key }}
+                            </td>
+                            <td class="px-4 py-3">
+                                <p class="font-medium">{{ item.work }}</p>
+                                <p
+                                    class="mt-0.5 font-mono text-xs text-muted-foreground"
+                                >
+                                    {{ item.agent }} · {{ item.updated }}
+                                </p>
+                            </td>
+                            <td
+                                class="px-4 py-3 align-top whitespace-nowrap text-muted-foreground"
+                            >
+                                {{ item.intake }}
+                            </td>
+                            <td class="px-4 py-3 align-top whitespace-nowrap">
+                                <span class="inline-flex items-center gap-2">
+                                    <span
+                                        class="size-1.5 shrink-0 rounded-full"
+                                        :class="toneClass[statusTone(item.status)]"
+                                    />
+                                    <span>{{ item.status }}</span>
+                                    <span
+                                        v-if="item.confidence !== null"
+                                        class="font-mono text-xs text-muted-foreground tabular-nums"
+                                    >
+                                        {{ item.confidence.toFixed(2) }}
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section
+            class="rounded-lg border border-border bg-card px-4 py-3"
+            aria-label="Runtime"
+        >
+            <h2 class="sr-only">Runtime</h2>
+            <ul class="flex flex-wrap gap-2">
+                <li
+                    v-for="item in runtime"
+                    :key="item.name"
+                    class="inline-flex items-center gap-2 rounded-md bg-muted/50 px-2.5 py-1.5 text-sm"
+                >
+                    <span
+                        class="size-1.5 shrink-0 rounded-full"
+                        :class="toneClass[item.tone]"
+                    />
+                    <span class="font-medium">{{ item.name }}</span>
+                    <span class="text-xs text-muted-foreground">{{
+                        item.state
+                    }}</span>
+                </li>
+            </ul>
+        </section>
     </div>
 </template>
