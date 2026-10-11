@@ -12,13 +12,13 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.ts'],
             refresh: true,
             fonts: [
-                bunny('Figtree', {
-                    weights: [400, 500, 600],
-                }),
-                bunny('Space Grotesk', {
+                bunny('Manrope', {
                     weights: [400, 500, 600, 700],
                 }),
-                bunny('JetBrains Mono', {
+                bunny('Sora', {
+                    weights: [500, 600, 700],
+                }),
+                bunny('IBM Plex Mono', {
                     weights: [400, 500],
                 }),
             ],

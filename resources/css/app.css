@@ -9,10 +9,14 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    /* Body / UI: refined geometric sans (not Inter/system) */
+    --font-sans:
+        Manrope, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
         'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    /* Headlines: precision geometric — works in dense product UI */
+    --font-display: Sora, ui-sans-serif, system-ui, sans-serif;
+    /* Instrument labels, IDs, mono chrome */
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', monospace;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -41,54 +45,65 @@
     --color-surface-muted: var(--surface-muted);
     --color-agent: var(--agent);
 
-    --color-forest: #062117;
-    --color-forest-50: #e8f0ec;
-    --color-forest-100: #d0e0d8;
-    --color-forest-200: #a3c4b5;
-    --color-forest-300: #6b9a84;
-    --color-forest-400: #3d7358;
-    --color-forest-500: #1f4f38;
-    --color-forest-600: #123d2a;
-    --color-forest-700: #0c3222;
-    --color-forest-800: #09291c;
+    /* Rolex-inspired: deep dial green → brand green */
+    --color-forest: #041f16;
+    --color-forest-50: #e9f3ed;
+    --color-forest-100: #d0e6da;
+    --color-forest-200: #a0c9b4;
+    --color-forest-300: #5fa88a;
+    --color-forest-400: #2d8f66;
+    --color-forest-500: #006039;
+    --color-forest-600: #004f2f;
+    --color-forest-700: #0a3d28;
+    --color-forest-800: #0a2e1f;
     --color-forest-900: #07241a;
-    --color-forest-950: #062117;
+    --color-forest-950: #041f16;
 
-    --color-gold: #c19a3a;
-    --color-gold-50: #fbf6eb;
-    --color-gold-100: #f5ebd3;
-    --color-gold-200: #ead7a8;
-    --color-gold-300: #dbc074;
-    --color-gold-400: #cfaf52;
-    --color-gold-500: #c19a3a;
-    --color-gold-600: #a6822f;
-    --color-gold-700: #866628;
-    --color-gold-800: #6b5124;
-    --color-gold-900: #584321;
-    --color-gold-950: #332513;
+    /* Champagne crown gold: luminous fills (400) → readable chrome (default) */
+    --color-gold: #a37e2c;
+    --color-gold-50: #fbf8ef;
+    --color-gold-100: #f5edd6;
+    --color-gold-200: #e8d5a3;
+    --color-gold-300: #d4bc6e;
+    --color-gold-400: #c9a227;
+    --color-gold-500: #a37e2c;
+    --color-gold-600: #8a6a24;
+    --color-gold-700: #6e5420;
+    --color-gold-800: #57431c;
+    --color-gold-900: #473719;
+    --color-gold-950: #2a2010;
 
-    --color-ivory: #faeedc;
-    --color-ivory-muted: #f3e4ce;
-    --color-ivory-deep: #e8d5b8;
+    /* Cool dial ivory (less parchment) */
+    --color-ivory: #f7f5f0;
+    --color-ivory-muted: #efebe3;
+    --color-ivory-deep: #e4dfd4;
 
-    --color-stone: #1c1917;
-    --color-stone-50: #fafaf9;
-    --color-stone-100: #f5f5f4;
-    --color-stone-200: #e7e5e4;
-    --color-stone-300: #d6d3d1;
-    --color-stone-400: #a8a29e;
-    --color-stone-500: #78716c;
-    --color-stone-600: #57534e;
-    --color-stone-700: #44403c;
-    --color-stone-800: #292524;
-    --color-stone-900: #1c1917;
-    --color-stone-950: #0c0a09;
+    /* Near-black stone with cool neutrals */
+    --color-stone: #0b0b0b;
+    --color-stone-50: #fafafa;
+    --color-stone-100: #f4f4f5;
+    --color-stone-200: #e4e4e7;
+    --color-stone-300: #d4d4d8;
+    --color-stone-400: #a1a1aa;
+    --color-stone-500: #71717a;
+    --color-stone-600: #52525b;
+    --color-stone-700: #3f3f46;
+    --color-stone-800: #27272a;
+    --color-stone-900: #0b0b0b;
+    --color-stone-950: #09090b;
 
-    --color-cylo-forest: #062117;
-    --color-cylo-gold: #c19a3a;
-    --color-cylo-ivory: #faeedc;
+    /* Platinum secondary chrome */
+    --color-platinum: #c5c6c8;
+    --color-platinum-muted: #8a8d91;
+
+    --color-cylo-forest: #041f16;
+    --color-cylo-green: #006039;
+    --color-cylo-gold: #a37e2c;
+    --color-cylo-gold-bright: #c9a227;
+    --color-cylo-ivory: #f7f5f0;
     --color-cylo-white: #ffffff;
-    --color-cylo-stone: #1c1917;
+    --color-cylo-stone: #0b0b0b;
+    --color-cylo-platinum: #c5c6c8;
 
     --color-chart-1: var(--chart-1);
     --color-chart-2: var(--chart-2);
@@ -119,8 +134,42 @@
         @apply border-border outline-ring/50;
     }
 
+    html {
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background font-sans text-foreground antialiased;
+        letter-spacing: -0.011em;
+        font-feature-settings:
+            'kern' 1,
+            'liga' 1,
+            'calt' 1;
+    }
+
+    /* Display: tight geometric tracking for instrument hierarchy */
+    .font-display {
+        letter-spacing: -0.03em;
+        font-feature-settings:
+            'kern' 1,
+            'liga' 1;
+    }
+
+    /* Technical mono: tabular feel for IDs / status chrome */
+    .font-mono {
+        letter-spacing: 0.01em;
+        font-variant-numeric: tabular-nums;
+    }
+
+    ::selection {
+        background-color: color-mix(
+            in oklab,
+            var(--cylo-gold-bright) 38%,
+            transparent
+        );
+        color: var(--foreground);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -155,12 +204,12 @@
         0%,
         100% {
             opacity: 1;
-            box-shadow: 0 0 0 0 rgb(193 154 58 / 0.55);
+            box-shadow: 0 0 0 0 rgb(201 162 39 / 0.55);
         }
 
         50% {
             opacity: 0.55;
-            box-shadow: 0 0 0 6px rgb(193 154 58 / 0);
+            box-shadow: 0 0 0 6px rgb(201 162 39 / 0);
         }
     }
 
@@ -265,7 +314,7 @@
     }
 
     .landing-hero-visual__progress [data-slot='progress-indicator'] {
-        background-color: #c19a3a;
+        background-color: var(--cylo-gold-bright);
     }
 
     @keyframes landing-agents-detail {
@@ -334,90 +383,103 @@
 }
 
 :root {
-    --cylo-forest: #062117;
-    --cylo-gold: #c19a3a;
-    --cylo-ivory: #faeedc;
+    /*
+     * Theme model (Rolex product, not Rolex flood):
+     * - Canvas = steel/ivory chrome
+     * - Green = brand accent (logo, primary, active nav)
+     * - Gold = rare signal (gates, focus, urgency)
+     * Landing may still use deep forest as brand theater.
+     */
+    --cylo-forest: #041f16;
+    --cylo-green: #006039;
+    --cylo-gold: #a37e2c;
+    --cylo-gold-bright: #c9a227;
+    --cylo-ivory: #f7f5f0;
     --cylo-white: #ffffff;
-    --cylo-stone: #1c1917;
+    --cylo-stone: #0b0b0b;
+    --cylo-platinum: #c5c6c8;
+    --cylo-steel: #0c0c0c;
+    --cylo-steel-elevated: #161616;
 
-    --background: var(--cylo-ivory);
-    --foreground: var(--cylo-stone);
-    --card: var(--cylo-white);
-    --card-foreground: var(--cylo-stone);
-    --popover: var(--cylo-white);
-    --popover-foreground: var(--cylo-stone);
-    --primary: var(--cylo-forest);
-    --primary-foreground: var(--cylo-ivory);
-    --secondary: #f3e4ce;
-    --secondary-foreground: var(--cylo-stone);
-    --muted: #f3e4ce;
-    --muted-foreground: #57534e;
-    --accent: var(--cylo-gold);
-    --accent-foreground: var(--cylo-stone);
-    --destructive: hsl(0 84.2% 60.2%);
+    --background: #f5f5f3;
+    --foreground: #121212;
+    --card: #ffffff;
+    --card-foreground: #121212;
+    --popover: #ffffff;
+    --popover-foreground: #121212;
+    --primary: var(--cylo-green);
+    --primary-foreground: #f7f5f0;
+    --secondary: #ecece8;
+    --secondary-foreground: #121212;
+    --muted: #ecece8;
+    --muted-foreground: #5c5c56;
+    --accent: #f3efe3;
+    --accent-foreground: #121212;
+    --destructive: hsl(0 72% 51%);
     --destructive-foreground: hsl(0 0% 98%);
-    --border: #e7e0d4;
-    --input: #e7e0d4;
-    --ring: var(--cylo-gold);
-    --surface: var(--cylo-white);
-    --surface-muted: #f3e4ce;
-    --agent: var(--cylo-gold);
+    --border: #e2e2dc;
+    --input: #e2e2dc;
+    --ring: var(--cylo-green);
+    --surface: #ffffff;
+    --surface-muted: #ecece8;
+    --agent: var(--cylo-gold-bright);
     --radius: 0.5rem;
 
-    --chart-1: #062117;
-    --chart-2: #c19a3a;
-    --chart-3: #1f4f38;
-    --chart-4: #cfaf52;
-    --chart-5: #57534e;
+    --chart-1: #006039;
+    --chart-2: #c9a227;
+    --chart-3: #3f3f46;
+    --chart-4: #a37e2c;
+    --chart-5: #8a8d91;
 
-    --sidebar-background: #faf7f1;
-    --sidebar-foreground: #292524;
-    --sidebar-primary: var(--cylo-forest);
-    --sidebar-primary-foreground: var(--cylo-ivory);
-    --sidebar-accent: #f3e4ce;
-    --sidebar-accent-foreground: #292524;
-    --sidebar-border: #e7e0d4;
-    --sidebar-ring: var(--cylo-gold);
-    --sidebar: #faf7f1;
+    --sidebar-background: #efefe9;
+    --sidebar-foreground: #1a1a1a;
+    --sidebar-primary: var(--cylo-green);
+    --sidebar-primary-foreground: #f7f5f0;
+    --sidebar-accent: #e4e4de;
+    --sidebar-accent-foreground: #1a1a1a;
+    --sidebar-border: #e0e0da;
+    --sidebar-ring: var(--cylo-green);
+    --sidebar: #efefe9;
 }
 
 .dark {
-    --background: var(--cylo-forest);
-    --foreground: var(--cylo-ivory);
-    --card: #0a2c1e;
-    --card-foreground: var(--cylo-ivory);
-    --popover: #0a2c1e;
-    --popover-foreground: var(--cylo-ivory);
-    --primary: var(--cylo-ivory);
-    --primary-foreground: var(--cylo-forest);
-    --secondary: #0d3324;
-    --secondary-foreground: var(--cylo-ivory);
-    --muted: #0d3324;
-    --muted-foreground: #c4b8a4;
-    --accent: #cfaf52;
-    --accent-foreground: var(--cylo-forest);
-    --destructive: hsl(0 84% 60%);
+    /* Charcoal instrument panel — green is accent, not the room */
+    --background: #0c0c0c;
+    --foreground: #f4f4f5;
+    --card: #161616;
+    --card-foreground: #f4f4f5;
+    --popover: #161616;
+    --popover-foreground: #f4f4f5;
+    --primary: var(--cylo-green);
+    --primary-foreground: #f7f5f0;
+    --secondary: #1c1c1c;
+    --secondary-foreground: #f4f4f5;
+    --muted: #1c1c1c;
+    --muted-foreground: #a1a1aa;
+    --accent: #1f1f1f;
+    --accent-foreground: #f4f4f5;
+    --destructive: hsl(0 72% 51%);
     --destructive-foreground: hsl(0 0% 98%);
-    --border: rgba(250, 238, 220, 0.12);
-    --input: rgba(250, 238, 220, 0.12);
-    --ring: #cfaf52;
-    --surface: #0a2c1e;
-    --surface-muted: #0d3324;
-    --agent: #cfaf52;
+    --border: rgb(255 255 255 / 0.09);
+    --input: rgb(255 255 255 / 0.12);
+    --ring: var(--cylo-gold-bright);
+    --surface: #161616;
+    --surface-muted: #1c1c1c;
+    --agent: var(--cylo-gold-bright);
 
-    --chart-1: #faeedc;
-    --chart-2: #cfaf52;
-    --chart-3: #a3c4b5;
-    --chart-4: #c19a3a;
-    --chart-5: #c4b8a4;
+    --chart-1: #2d8f66;
+    --chart-2: #c9a227;
+    --chart-3: #a1a1aa;
+    --chart-4: #a37e2c;
+    --chart-5: #71717a;
 
-    --sidebar-background: #07241a;
-    --sidebar-foreground: var(--cylo-ivory);
-    --sidebar-primary: var(--cylo-gold);
-    --sidebar-primary-foreground: var(--cylo-forest);
-    --sidebar-accent: #0d3324;
-    --sidebar-accent-foreground: var(--cylo-ivory);
-    --sidebar-border: rgba(250, 238, 220, 0.12);
-    --sidebar-ring: #cfaf52;
-    --sidebar: #07241a;
+    --sidebar-background: #101010;
+    --sidebar-foreground: #f4f4f5;
+    --sidebar-primary: var(--cylo-green);
+    --sidebar-primary-foreground: #f7f5f0;
+    --sidebar-accent: #1c1c1c;
+    --sidebar-accent-foreground: #f4f4f5;
+    --sidebar-border: rgb(255 255 255 / 0.08);
+    --sidebar-ring: var(--cylo-gold-bright);
+    --sidebar: #101010;
 }

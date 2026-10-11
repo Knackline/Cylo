@@ -36,7 +36,7 @@ defineProps<Props>();
             stroke-width="3"
             stroke-linecap="round"
         />
-        <circle cx="24" cy="6" r="2.75" fill="#C19A3A" />
+        <circle cx="24" cy="6" r="2.75" fill="#C9A227" />
         <path
             d="M17.7 29.7c1.8 2.7 4.2 3.9 6.3 3.9s4.5-1.2 6.3-3.9"
             stroke="currentColor"

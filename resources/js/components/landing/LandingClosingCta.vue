@@ -21,18 +21,18 @@ const user = computed(() => page.props.auth.user);
         >
             <div class="max-w-xl">
                 <p
-                    class="font-mono text-xs tracking-[0.2em] text-gold uppercase"
+                    class="font-mono text-xs tracking-[0.22em] text-gold-400 uppercase"
                 >
                     Keep control
                 </p>
                 <h2
                     id="closing-heading"
-                    class="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl"
+                    class="mt-3 font-display text-3xl font-semibold tracking-tight text-ivory sm:text-4xl"
                 >
                     You keep the merge.
                 </h2>
                 <p
-                    class="mt-4 text-base leading-relaxed text-ivory/70 sm:text-lg"
+                    class="mt-4 text-base leading-relaxed text-ivory/72 sm:text-lg"
                 >
                     Triage, Fix, and Feature open draft PRs. You review and
                     merge. Nothing ships without a human. You keep the merge.
@@ -44,7 +44,7 @@ const user = computed(() => page.props.auth.user);
                     <Button
                         as-child
                         size="lg"
-                        class="bg-gold-700 text-ivory hover:bg-gold-600"
+                        class="bg-gold-400 text-forest hover:bg-gold-300"
                     >
                         <Link :href="dashboard()">Dashboard</Link>
                     </Button>
@@ -53,7 +53,7 @@ const user = computed(() => page.props.auth.user);
                     <Button
                         as-child
                         size="lg"
-                        class="bg-gold-700 text-ivory hover:bg-gold-600"
+                        class="bg-gold-400 text-forest hover:bg-gold-300"
                     >
                         <Link :href="register()">Start a cycle</Link>
                     </Button>

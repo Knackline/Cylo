@@ -21,14 +21,15 @@ const githubUrl =
             <div class="max-w-sm">
                 <a
                     href="#top"
-                    class="inline-flex items-center gap-2.5 text-ivory transition-colors hover:text-gold"
+                    class="inline-flex items-center gap-2.5 text-ivory transition-colors hover:text-gold-400"
                 >
                     <AppLogoIcon class="h-7 w-7 text-ivory" />
-                    <span class="font-display text-base font-semibold"
+                    <span
+                        class="font-display text-lg font-semibold tracking-tight"
                         >Cylo</span
                     >
                 </a>
-                <p class="mt-3 text-sm leading-relaxed">
+                <p class="mt-3 text-sm leading-relaxed text-ivory/65">
                     Open-source engineering control plane for AI-assisted
                     development. Specialized agents propose. You merge.
                 </p>

@@ -57,10 +57,11 @@ onUnmounted(() => {
         >
             <a
                 href="#top"
-                class="flex items-center gap-2.5 text-ivory transition-colors hover:text-gold"
+                class="flex items-center gap-2.5 text-ivory transition-colors hover:text-gold-400"
             >
                 <AppLogoIcon class="h-8 w-8 text-ivory" />
-                <span class="font-display text-lg font-semibold tracking-tight"
+                <span
+                    class="font-display text-xl font-semibold tracking-tight text-ivory"
                     >Cylo</span
                 >
             </a>
@@ -85,7 +86,7 @@ onUnmounted(() => {
                 <template v-if="user">
                     <Button
                         as-child
-                        class="bg-gold-700 text-ivory hover:bg-gold-600"
+                        class="bg-gold-400 text-forest hover:bg-gold-300"
                     >
                         <Link :href="dashboard()">Dashboard</Link>
                     </Button>
@@ -100,7 +101,7 @@ onUnmounted(() => {
                     </Button>
                     <Button
                         as-child
-                        class="bg-gold-700 text-ivory hover:bg-gold-600"
+                        class="bg-gold-400 text-forest hover:bg-gold-300"
                     >
                         <Link :href="register()">Start a cycle</Link>
                     </Button>
@@ -145,7 +146,7 @@ onUnmounted(() => {
                                 <SheetClose as-child>
                                     <Link
                                         :href="dashboard()"
-                                        class="flex min-h-11 items-center rounded-md px-3 text-base font-medium text-gold"
+                                        class="flex min-h-11 items-center rounded-md px-3 text-base font-medium text-gold-400"
                                     >
                                         Dashboard
                                     </Link>
@@ -163,7 +164,7 @@ onUnmounted(() => {
                                 <SheetClose as-child>
                                     <Link
                                         :href="register()"
-                                        class="flex min-h-11 items-center rounded-md px-3 text-base font-medium text-gold"
+                                        class="flex min-h-11 items-center rounded-md px-3 text-base font-medium text-gold-400"
                                     >
                                         Start a cycle
                                     </Link>

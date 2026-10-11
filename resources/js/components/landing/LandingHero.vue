@@ -22,12 +22,12 @@ const user = computed(() => page.props.auth.user);
             style="
                 background-image:
                     linear-gradient(
-                        rgba(250, 238, 220, 0.45) 1px,
+                        rgba(247, 245, 240, 0.4) 1px,
                         transparent 1px
                     ),
                     linear-gradient(
                         90deg,
-                        rgba(250, 238, 220, 0.45) 1px,
+                        rgba(247, 245, 240, 0.4) 1px,
                         transparent 1px
                     );
                 background-size: 48px 48px;
@@ -49,7 +49,7 @@ const user = computed(() => page.props.auth.user);
                 <div class="flex items-center gap-3">
                     <AppLogoIcon class="size-12 text-ivory sm:size-14" />
                     <span
-                        class="font-display text-3xl font-semibold tracking-tight text-ivory sm:text-4xl"
+                        class="font-display text-4xl font-semibold tracking-tight text-ivory sm:text-5xl"
                         >Cylo</span
                     >
                 </div>
@@ -63,13 +63,13 @@ const user = computed(() => page.props.auth.user);
 
                 <h1
                     id="hero-heading"
-                    class="mt-4 font-display text-4xl font-semibold tracking-tight text-ivory sm:text-5xl lg:text-[3.15rem] lg:leading-[1.1]"
+                    class="mt-4 font-display text-4xl font-semibold tracking-tight text-ivory sm:text-5xl lg:text-[3.35rem] lg:leading-[1.08]"
                 >
                     The engineering control plane for AI-assisted development
                 </h1>
 
                 <p
-                    class="landing-fade-up-delay mt-5 max-w-xl text-base leading-relaxed text-ivory/75 sm:text-lg"
+                    class="landing-fade-up-delay mt-5 max-w-xl text-base leading-relaxed text-ivory/72 sm:text-lg"
                 >
                     Specialized agents triage, plan, and implement from tickets,
                     Slack, and errors, not a blank chat. You own the gates. You
@@ -83,7 +83,7 @@ const user = computed(() => page.props.auth.user);
                         <Button
                             as-child
                             size="lg"
-                            class="bg-gold-700 text-ivory hover:bg-gold-600"
+                            class="bg-gold-400 text-forest hover:bg-gold-300"
                         >
                             <Link :href="dashboard()">Dashboard</Link>
                         </Button>
@@ -92,7 +92,7 @@ const user = computed(() => page.props.auth.user);
                         <Button
                             as-child
                             size="lg"
-                            class="bg-gold-700 text-ivory hover:bg-gold-600"
+                            class="bg-gold-400 text-forest hover:bg-gold-300"
                         >
                             <Link :href="register()">Start a cycle</Link>
                         </Button>

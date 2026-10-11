@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
@@ -23,5 +24,17 @@ class DashboardTest extends TestCase
 
         $response = $this->get(route('dashboard'));
         $response->assertOk();
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Dashboard'));
+    }
+
+    public function test_dashboard_page_includes_mock_control_plane_copy()
+    {
+        $dashboard = file_get_contents(resource_path('js/pages/Dashboard.vue'));
+
+        $this->assertNotFalse($dashboard);
+        $this->assertStringContainsString('Mock control plane', $dashboard);
+        $this->assertStringContainsString('Human gates', $dashboard);
+        $this->assertStringContainsString('Recent runs', $dashboard);
     }
 }

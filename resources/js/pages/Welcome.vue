@@ -41,7 +41,7 @@ const description =
     >
         <a
             href="#main-content"
-            class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:rounded-md focus:bg-gold-700 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-ivory"
+            class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:rounded-md focus:bg-gold-400 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-forest"
         >
             Skip to content
         </a>

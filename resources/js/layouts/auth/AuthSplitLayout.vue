@@ -20,9 +20,13 @@ defineProps<{
             class="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r"
         >
             <div class="absolute inset-0 bg-forest" />
+            <div
+                class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgb(201_162_39/0.18),transparent_55%)]"
+                aria-hidden="true"
+            />
             <Link
                 :href="home()"
-                class="relative z-20 flex items-center text-lg font-medium text-ivory"
+                class="relative z-20 flex items-center font-display text-xl font-semibold text-ivory"
             >
                 <AppLogoIcon class="mr-2 size-8 text-ivory" />
                 {{ name }}
@@ -33,10 +37,16 @@ defineProps<{
                 class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]"
             >
                 <div class="flex flex-col space-y-2 text-center">
-                    <h1 class="text-xl font-medium tracking-tight" v-if="title">
+                    <h1
+                        class="font-display text-2xl font-semibold tracking-tight text-foreground"
+                        v-if="title"
+                    >
                         {{ title }}
                     </h1>
-                    <p class="text-sm text-muted-foreground" v-if="description">
+                    <p
+                        class="text-sm leading-relaxed text-muted-foreground"
+                        v-if="description"
+                    >
                         {{ description }}
                     </p>
                 </div>

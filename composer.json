@@ -1,11 +1,15 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/vue-starter-kit",
+    "name": "knackline/cylo",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Engineering control plane for AI-assisted development — specialized agents with human gates.",
     "keywords": [
+        "cylo",
         "laravel",
-        "framework"
+        "agents",
+        "adlc",
+        "inertia",
+        "vue"
     ],
     "license": "MIT",
     "require": {

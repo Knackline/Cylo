@@ -144,7 +144,7 @@ function selectStage(stageId: string): void {
                         class="rounded-md px-3 py-1.5 font-mono text-xs tracking-wide uppercase transition-colors focus-visible:ring-2 focus-visible:ring-gold focus-visible:outline-none"
                         :class="
                             activePath === id
-                                ? 'bg-gold-700 text-ivory'
+                                ? 'bg-gold-400 text-forest'
                                 : 'bg-ivory/5 text-ivory/65 hover:bg-ivory/10 hover:text-ivory'
                         "
                         :aria-pressed="activePath === id"
@@ -198,7 +198,7 @@ function selectStage(stageId: string): void {
                                     :class="[
                                         'mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full font-mono text-[11px]',
                                         stage.owner === 'human'
-                                            ? 'bg-gold-700 text-ivory'
+                                            ? 'bg-gold-400 text-forest'
                                             : activeStageId === stage.id
                                               ? 'bg-ivory/20 text-ivory'
                                               : 'bg-ivory/10 text-ivory/55',
@@ -272,7 +272,7 @@ function selectStage(stageId: string): void {
                                             'flex size-6 items-center justify-center rounded-full font-mono text-[10px]',
                                             stage.id === currentStage.id
                                                 ? stage.owner === 'human'
-                                                    ? 'bg-gold-700 text-ivory'
+                                                    ? 'bg-gold-400 text-forest'
                                                     : 'bg-ivory text-forest'
                                                 : 'bg-ivory/10 text-ivory/45',
                                         ]"
