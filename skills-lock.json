@@ -44,10 +44,10 @@
       "computedHash": "3b4c43f619bc1c294d5519a1bcaeb936e3690a90c57bfecbfaed15a6bc4dac4e"
     },
     "laravel-actions": {
-      "source": "leeovery/agentic-skills",
+      "source": "lorisleiva/laravel-actions",
       "sourceType": "github",
-      "skillPath": "laravel/skills/laravel-actions/SKILL.md",
-      "computedHash": "39cf6841378f88b127d384ea22300d41341c7090e96faf398049b20db3900ce9"
+      "skillPath": "resources/boost/skills/laravel-actions/SKILL.md",
+      "computedHash": "bf9dbdf925f0096191f2143df0298350c7209d86bc028cd5a46823e56cc17629"
     },
     "laravel-specialist": {
       "source": "jeffallan/claude-skills",
