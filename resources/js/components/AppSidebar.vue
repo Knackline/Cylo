@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, GitBranch, LayoutGrid } from '@lucide/vue';
+import {
+    Activity,
+    Bot,
+    Building2,
+    Cable,
+    CreditCard,
+    FolderGit2,
+    GitBranch,
+    LayoutGrid,
+    Settings,
+} from '@lucide/vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -14,6 +24,12 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { index as agents } from '@/routes/agents';
+import { edit as billing } from '@/routes/billing';
+import { index as connectors } from '@/routes/connectors';
+import { edit as organization } from '@/routes/organization';
+import { edit as repositories } from '@/routes/repositories';
+import { index as runs } from '@/routes/runs';
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
@@ -22,6 +38,43 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Runs',
+        href: runs(),
+        icon: Activity,
+    },
+    {
+        title: 'Agents',
+        href: agents(),
+        icon: Bot,
+    },
+    {
+        title: 'Connectors',
+        href: connectors(),
+        icon: Cable,
+    },
+    {
+        title: 'Settings',
+        href: repositories(),
+        icon: Settings,
+        items: [
+            {
+                title: 'Repositories',
+                href: repositories(),
+                icon: FolderGit2,
+            },
+            {
+                title: 'Organization',
+                href: organization(),
+                icon: Building2,
+            },
+            {
+                title: 'Billing',
+                href: billing(),
+                icon: CreditCard,
+            },
+        ],
     },
 ];
 

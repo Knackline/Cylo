@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { ArrowRight, TrendingUp } from '@lucide/vue';
-import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import {
+    type JobStatus,
+    sampleRuns,
+} from '@/data/sampleRuns';
+import { show as showRun } from '@/routes/runs';
 
 defineOptions({
     layout: {
@@ -13,14 +17,6 @@ defineOptions({
 type Tone = 'active' | 'attention' | 'quiet';
 
 type MetricTrend = 'up' | 'attention' | 'neutral';
-
-type JobStatus =
-    | 'Investigating'
-    | 'Needs review'
-    | 'Awaiting approval'
-    | 'Developing'
-    | 'Reviewing'
-    | 'Merged';
 
 const toneDotClass: Record<Tone, string> = {
     active: 'bg-forest-500',
@@ -75,70 +71,15 @@ const runtime = [
     { name: 'support-rotation-agent', state: 'Idle', tone: 'quiet' as const },
 ];
 
-const queue: {
-    key: string;
-    work: string;
-    intake: string;
-    agent: string;
-    status: JobStatus;
-    confidence: number | null;
-    updated: string;
-}[] = [
-    {
-        key: 'ZD-1842',
-        work: 'Payment webhook null intent',
-        intake: 'Zendesk',
-        agent: 'bug-triage',
-        status: 'Investigating',
-        confidence: 0.91,
-        updated: '2m ago',
-    },
-    {
-        key: 'SL-1831',
-        work: 'Invoice PDF missing line items',
-        intake: 'Slack',
-        agent: 'bug-triage',
-        status: 'Needs review',
-        confidence: 0.54,
-        updated: '18m ago',
-    },
-    {
-        key: 'PROJ-441',
-        work: 'Self-serve seat transfer',
-        intake: 'Jira',
-        agent: 'feature',
-        status: 'Awaiting approval',
-        confidence: null,
-        updated: '41m ago',
-    },
-    {
-        key: 'ZD-1794',
-        work: 'Retry storm on checkout webhook',
-        intake: 'Zendesk',
-        agent: 'bug-fix',
-        status: 'Reviewing',
-        confidence: 0.88,
-        updated: '2h ago',
-    },
-    {
-        key: 'PROJ-438',
-        work: 'SSO role mapping for contractors',
-        intake: 'Jira',
-        agent: 'feature',
-        status: 'Developing',
-        confidence: null,
-        updated: '3h ago',
-    },
-    {
-        key: 'ERR-2201',
-        work: 'Null payment_intent after retry',
-        intake: 'Error Reporting',
-        agent: 'bug-fix',
-        status: 'Merged',
-        confidence: 0.93,
-        updated: 'Yesterday',
-    },
-];
+const queue = sampleRuns.map((run) => ({
+    key: run.key,
+    work: run.title,
+    intake: run.intake,
+    agent: run.agent,
+    status: run.status,
+    confidence: run.confidence,
+    updated: run.updated,
+}));
 
 const reviews = [
     {
@@ -264,41 +205,42 @@ function statusTone(status: JobStatus): Tone {
                         <li
                             v-for="(review, index) in reviews"
                             :key="review.key"
-                            :class="[
-                                'group flex cursor-pointer flex-col gap-3 px-4 py-3 transition-colors duration-150 hover:bg-muted/40 sm:flex-row sm:items-center sm:justify-between',
-                                index > 0 ? 'border-t border-border' : '',
-                            ]"
+                            :class="index > 0 ? 'border-t border-border' : ''"
                         >
-                            <div
-                                class="min-w-0 sm:flex sm:min-w-0 sm:items-center sm:gap-4"
+                            <Link
+                                :href="showRun(review.key)"
+                                class="group flex flex-col gap-3 px-4 py-3 transition-colors duration-150 hover:bg-muted/40 sm:flex-row sm:items-center sm:justify-between"
                             >
-                                <span
-                                    class="inline-block w-20 shrink-0 font-mono text-xs text-muted-foreground"
-                                    >{{ review.key }}</span
+                                <div
+                                    class="min-w-0 sm:flex sm:min-w-0 sm:items-center sm:gap-4"
                                 >
-                                <div class="min-w-0">
-                                    <p
-                                        class="text-sm font-medium text-foreground"
+                                    <span
+                                        class="inline-block w-20 shrink-0 font-mono text-xs text-muted-foreground"
+                                        >{{ review.key }}</span
                                     >
-                                        {{ review.title }}
-                                    </p>
-                                    <p
-                                        class="mt-0.5 text-sm text-muted-foreground sm:truncate"
-                                    >
-                                        {{ review.detail }}
-                                    </p>
+                                    <div class="min-w-0">
+                                        <p
+                                            class="text-sm font-medium text-foreground"
+                                        >
+                                            {{ review.title }}
+                                        </p>
+                                        <p
+                                            class="mt-0.5 text-sm text-muted-foreground sm:truncate"
+                                        >
+                                            {{ review.detail }}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <Button
-                                size="sm"
-                                class="shrink-0 self-start sm:self-center"
-                            >
-                                {{ review.action }}
-                                <ArrowRight
-                                    class="size-3.5"
-                                    aria-hidden="true"
-                                />
-                            </Button>
+                                <span
+                                    class="inline-flex h-8 shrink-0 items-center gap-1.5 self-start rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors duration-150 group-hover:bg-forest-600 sm:self-center"
+                                >
+                                    {{ review.action }}
+                                    <ArrowRight
+                                        class="size-3.5"
+                                        aria-hidden="true"
+                                    />
+                                </span>
+                            </Link>
                         </li>
                     </ul>
                 </section>
@@ -325,44 +267,50 @@ function statusTone(status: JobStatus): Tone {
                         <li
                             v-for="item in queue"
                             :key="item.key"
-                            :class="[
-                                'px-4 py-3',
+                            :class="
                                 statusTone(item.status) === 'attention'
                                     ? 'bg-accent/40'
-                                    : '',
-                            ]"
+                                    : ''
+                            "
                         >
-                            <div
-                                class="flex items-center justify-between gap-3"
+                            <Link
+                                :href="showRun(item.key)"
+                                class="block px-4 py-3 transition-colors duration-150 hover:bg-muted/40"
                             >
-                                <span
-                                    class="font-mono text-xs text-muted-foreground"
-                                    >{{ item.key }}</span
-                                >
-                                <span
-                                    class="inline-flex items-center gap-1.5 text-xs text-foreground"
+                                <div
+                                    class="flex items-center justify-between gap-3"
                                 >
                                     <span
-                                        class="size-1.5 rounded-full"
-                                        :class="
-                                            toneDotClass[
-                                                statusTone(item.status)
-                                            ]
-                                        "
-                                        aria-hidden="true"
-                                    />
-                                    {{ item.status }}
-                                </span>
-                            </div>
-                            <p class="mt-1 text-sm font-medium text-foreground">
-                                {{ item.work }}
-                            </p>
-                            <p
-                                class="mt-0.5 font-mono text-xs text-muted-foreground"
-                            >
-                                {{ item.intake }} · {{ item.agent }} ·
-                                {{ item.updated }}
-                            </p>
+                                        class="font-mono text-xs text-muted-foreground"
+                                        >{{ item.key }}</span
+                                    >
+                                    <span
+                                        class="inline-flex items-center gap-1.5 text-xs text-foreground"
+                                    >
+                                        <span
+                                            class="size-1.5 rounded-full"
+                                            :class="
+                                                toneDotClass[
+                                                    statusTone(item.status)
+                                                ]
+                                            "
+                                            aria-hidden="true"
+                                        />
+                                        {{ item.status }}
+                                    </span>
+                                </div>
+                                <p
+                                    class="mt-1 text-sm font-medium text-foreground"
+                                >
+                                    {{ item.work }}
+                                </p>
+                                <p
+                                    class="mt-0.5 font-mono text-xs text-muted-foreground"
+                                >
+                                    {{ item.intake }} · {{ item.agent }} ·
+                                    {{ item.updated }}
+                                </p>
+                            </Link>
                         </li>
                     </ul>
 
@@ -392,50 +340,60 @@ function statusTone(status: JobStatus): Tone {
                                 <tr
                                     v-for="item in queue"
                                     :key="item.key"
-                                    :class="[
-                                        'transition-colors duration-150 hover:bg-muted/40',
+                                    :class="
                                         statusTone(item.status) === 'attention'
                                             ? 'bg-accent/40'
-                                            : '',
-                                    ]"
+                                            : ''
+                                    "
                                 >
                                     <td
                                         class="px-4 py-2.5 align-middle font-mono text-xs whitespace-nowrap text-muted-foreground"
                                     >
-                                        {{ item.key }}
+                                        <Link
+                                            :href="showRun(item.key)"
+                                            class="block hover:text-foreground"
+                                        >
+                                            {{ item.key }}
+                                        </Link>
                                     </td>
                                     <td class="max-w-md px-4 py-2.5 align-middle">
-                                        <p
-                                            class="font-medium text-foreground"
+                                        <Link
+                                            :href="showRun(item.key)"
+                                            class="block transition-colors duration-150 hover:bg-muted/40"
                                         >
-                                            {{ item.work }}
-                                        </p>
-                                        <p
-                                            class="mt-0.5 font-mono text-xs text-muted-foreground"
-                                        >
-                                            {{ item.agent }} ·
-                                            {{ item.updated }}
-                                            <template
-                                                v-if="
-                                                    item.confidence !== null
-                                                "
+                                            <p
+                                                class="font-medium text-foreground"
                                             >
-                                                ·
-                                                <span
-                                                    :class="
-                                                        item.confidence < 0.6
-                                                            ? 'text-gold-700 dark:text-gold-300'
-                                                            : ''
+                                                {{ item.work }}
+                                            </p>
+                                            <p
+                                                class="mt-0.5 font-mono text-xs text-muted-foreground"
+                                            >
+                                                {{ item.agent }} ·
+                                                {{ item.updated }}
+                                                <template
+                                                    v-if="
+                                                        item.confidence !== null
                                                     "
                                                 >
-                                                    {{
-                                                        item.confidence.toFixed(
-                                                            2,
-                                                        )
-                                                    }}
-                                                </span>
-                                            </template>
-                                        </p>
+                                                    ·
+                                                    <span
+                                                        :class="
+                                                            item.confidence <
+                                                            0.6
+                                                                ? 'text-gold-700 dark:text-gold-300'
+                                                                : ''
+                                                        "
+                                                    >
+                                                        {{
+                                                            item.confidence.toFixed(
+                                                                2,
+                                                            )
+                                                        }}
+                                                    </span>
+                                                </template>
+                                            </p>
+                                        </Link>
                                     </td>
                                     <td
                                         class="px-4 py-2.5 align-middle whitespace-nowrap"
