@@ -84,6 +84,12 @@
       "sourceType": "github",
       "skillPath": "ux-heuristics/SKILL.md",
       "computedHash": "078959463a4d191d3ff17fd7a0b036697c79da3e86102251c98f76ffa9e66a28"
+    },
+    "web-motion-design": {
+      "source": "dylantarre/animation-principles",
+      "sourceType": "github",
+      "skillPath": "skills/01-by-domain/web-motion-design/SKILL.md",
+      "computedHash": "ec2e6a89573cb273bf12667ccbc2bde8cfd500271a1e7d888b05aba0ae7cc159"
     }
   }
 }

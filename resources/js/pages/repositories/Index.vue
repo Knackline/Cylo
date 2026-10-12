@@ -11,13 +11,13 @@ defineOptions({
 
 const repositories = [
     {
-        name: 'Unimarket/unimarket',
+        name: 'Microsoft/microsoft',
         branch: 'main',
         usedBy: 'bug fix, feature',
         mode: 'Draft PRs',
     },
     {
-        name: 'Unimarket/unimarket-ui',
+        name: 'Microsoft/microsoft-ui',
         branch: 'main',
         usedBy: 'bug fix',
         mode: 'Draft PRs',

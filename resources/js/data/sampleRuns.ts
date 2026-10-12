@@ -138,7 +138,7 @@ export const sampleRuns: SampleRun[] = [
             },
             {
                 label: 'GitHub draft PR',
-                href: 'https://example.github.com/Unimarket/unimarket/pull/1794',
+                href: 'https://example.github.com/Microsoft/microsoft/pull/1794',
             },
         ],
     },
@@ -157,7 +157,7 @@ export const sampleRuns: SampleRun[] = [
         },
         context: {
             summary:
-                'Implementation in progress against Unimarket/unimarket.',
+                'Implementation in progress against Microsoft/microsoft.',
             mode: 'Feature implement',
         },
         links: [
@@ -167,7 +167,7 @@ export const sampleRuns: SampleRun[] = [
             },
             {
                 label: 'GitHub branch',
-                href: 'https://example.github.com/Unimarket/unimarket/tree/ai/proj-438',
+                href: 'https://example.github.com/Microsoft/microsoft/tree/ai/proj-438',
             },
         ],
     },
@@ -195,7 +195,7 @@ export const sampleRuns: SampleRun[] = [
             },
             {
                 label: 'GitHub PR',
-                href: 'https://example.github.com/Unimarket/unimarket/pull/2201',
+                href: 'https://example.github.com/Microsoft/microsoft/pull/2201',
             },
         ],
     },

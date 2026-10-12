@@ -52,13 +52,13 @@ const members = [
                         class="flex flex-col gap-0.5 px-4 py-3 sm:flex-row sm:gap-6"
                     >
                         <dt class="w-24 shrink-0 text-muted-foreground">Name</dt>
-                        <dd class="text-foreground">Unimarket</dd>
+                        <dd class="text-foreground">Microsoft</dd>
                     </div>
                     <div
                         class="flex flex-col gap-0.5 px-4 py-3 sm:flex-row sm:gap-6"
                     >
                         <dt class="w-24 shrink-0 text-muted-foreground">Slug</dt>
-                        <dd class="font-mono text-foreground">unimarket</dd>
+                        <dd class="font-mono text-foreground">microsoft</dd>
                     </div>
                 </dl>
             </section>

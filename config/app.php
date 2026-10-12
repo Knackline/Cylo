@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'organization' => env('APP_ORGANIZATION', 'Unimarket'),
+    'organization' => env('APP_ORGANIZATION', 'Microsoft'),
 
     /*
     |--------------------------------------------------------------------------
