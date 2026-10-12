@@ -17,6 +17,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Organization Name
+    |--------------------------------------------------------------------------
+    |
+    | The current workspace / organization label shown in the product chrome
+    | (for example next to the app name in the sidebar).
+    |
+    */
+
+    'organization' => env('APP_ORGANIZATION', 'Unimarket'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

@@ -36,6 +36,6 @@ class DashboardTest extends TestCase
         $this->assertStringContainsString('Work queue', $dashboard);
         $this->assertStringContainsString('Needs review', $dashboard);
         $this->assertStringContainsString('webhook-service', $dashboard);
-        $this->assertStringContainsString('Sample data', $dashboard);
+        $this->assertStringContainsString('organization', $dashboard);
     }
 }

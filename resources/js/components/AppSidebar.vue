@@ -30,7 +30,7 @@ const footerNavItems: NavItem[] = [
         title: 'Github',
         href: 'https://github.com/Knackline/Cylo',
         icon: GitBranch,
-    }
+    },
 ];
 </script>
 
