@@ -5,7 +5,7 @@
 Specialized agents triage, plan, and implement from tickets, Slack, and errors — not a blank chat. You own the gates. You merge the draft PR.
 
 [![CI](https://github.com/Knackline/Cylo/actions/workflows/tests.yml/badge.svg)](https://github.com/Knackline/Cylo/actions/workflows/tests.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-forest.svg)](LICENSE)
+[![License: AGPL-3.0 OR Commercial](https://img.shields.io/badge/License-AGPL--3.0%20OR%20Commercial-forest.svg)](LICENSE)
 
 ---
 
@@ -146,6 +146,8 @@ Dockerfile            # Production FrankenPHP image
 5. Format PHP with `vendor/bin/pint --dirty`.
 6. Open a PR with a clear summary and test plan.
 
+By opening a pull request, you agree that your contribution may be licensed by Knackline under both the AGPL-3.0 (or later) and Knackline’s commercial license (dual licensing), and that Knackline may relicense your contribution accordingly.
+
 Agent / AI contributors: follow `AGENTS.md` and the skills under `.github/skills/`.
 
 ## Security
@@ -154,4 +156,9 @@ Please do not open public issues for security vulnerabilities. Email the maintai
 
 ## License
 
-Cylo is open source under the [MIT License](LICENSE).
+Cylo is dual-licensed:
+
+- **AGPL-3.0 (or later)** — community / self-host use; see [LICENSE-AGPL](LICENSE-AGPL)
+- **Commercial** — available from Knackline; see [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md)
+
+Overview: [LICENSE](LICENSE).
