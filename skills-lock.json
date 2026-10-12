@@ -43,6 +43,12 @@
       "skillPath": "skills/gtm-product-led-growth/SKILL.md",
       "computedHash": "3b4c43f619bc1c294d5519a1bcaeb936e3690a90c57bfecbfaed15a6bc4dac4e"
     },
+    "laravel-actions": {
+      "source": "leeovery/agentic-skills",
+      "sourceType": "github",
+      "skillPath": "laravel/skills/laravel-actions/SKILL.md",
+      "computedHash": "39cf6841378f88b127d384ea22300d41341c7090e96faf398049b20db3900ce9"
+    },
     "laravel-specialist": {
       "source": "jeffallan/claude-skills",
       "sourceType": "github",
