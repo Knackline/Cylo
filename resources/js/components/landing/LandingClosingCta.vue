@@ -3,7 +3,8 @@ import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import LandingSection from '@/components/landing/LandingSection.vue';
 import { Button } from '@/components/ui/button';
-import { dashboard, login, register } from '@/routes';
+import { dashboard, login } from '@/routes';
+import { create as waitlist } from '@/routes/waitlist';
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
@@ -37,6 +38,10 @@ const user = computed(() => page.props.auth.user);
                     Triage, Fix, and Feature open draft PRs. You review and
                     merge. Nothing ships without a human. You keep the merge.
                 </p>
+                <p class="mt-3 text-sm leading-relaxed text-ivory/85 sm:text-base">
+                    We are rolling out to a limited number of customers. Sign
+                    up for the waitlist and we will be in touch.
+                </p>
             </div>
 
             <div class="flex flex-wrap items-center gap-3">
@@ -55,7 +60,7 @@ const user = computed(() => page.props.auth.user);
                         size="lg"
                         class="bg-gold-400 text-forest hover:bg-gold-300"
                     >
-                        <Link :href="register()">Start a cycle</Link>
+                        <Link :href="waitlist()">Join the waitlist</Link>
                     </Button>
                     <Button
                         as-child

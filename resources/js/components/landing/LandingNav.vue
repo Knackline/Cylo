@@ -21,7 +21,8 @@ import {
     SheetTrigger,
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
-import { dashboard, login, register } from '@/routes';
+import { dashboard, login } from '@/routes';
+import { create as waitlist } from '@/routes/waitlist';
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
@@ -103,7 +104,7 @@ onUnmounted(() => {
                         as-child
                         class="bg-gold-400 text-forest hover:bg-gold-300"
                     >
-                        <Link :href="register()">Start a cycle</Link>
+                        <Link :href="waitlist()">Join the waitlist</Link>
                     </Button>
                 </template>
 
@@ -163,10 +164,10 @@ onUnmounted(() => {
                                 </SheetClose>
                                 <SheetClose as-child>
                                     <Link
-                                        :href="register()"
+                                        :href="waitlist()"
                                         class="flex min-h-11 items-center rounded-md px-3 text-base font-medium text-gold-400"
                                     >
-                                        Start a cycle
+                                        Join the waitlist
                                     </Link>
                                 </SheetClose>
                             </template>

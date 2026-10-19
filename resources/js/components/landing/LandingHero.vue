@@ -5,7 +5,8 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import LandingHeroVisual from '@/components/landing/LandingHeroVisual.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { dashboard, login, register } from '@/routes';
+import { dashboard, login } from '@/routes';
+import { create as waitlist } from '@/routes/waitlist';
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
@@ -76,6 +77,13 @@ const user = computed(() => page.props.auth.user);
                     merge the draft PR.
                 </p>
 
+                <p
+                    class="landing-fade-up-delay mt-6 max-w-xl text-sm leading-relaxed text-ivory/85 sm:text-base"
+                >
+                    We are rolling out to a limited number of customers. Sign
+                    up for the waitlist and we will be in touch.
+                </p>
+
                 <div
                     class="landing-fade-up-delay-2 mt-8 flex flex-wrap items-center gap-3"
                 >
@@ -94,7 +102,7 @@ const user = computed(() => page.props.auth.user);
                             size="lg"
                             class="bg-gold-400 text-forest hover:bg-gold-300"
                         >
-                            <Link :href="register()">Start a cycle</Link>
+                            <Link :href="waitlist()">Join the waitlist</Link>
                         </Button>
                         <Button
                             as-child

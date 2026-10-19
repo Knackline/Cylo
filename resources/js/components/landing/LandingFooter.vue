@@ -5,6 +5,7 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { landingNavLinks } from '@/components/landing/landingNavLinks';
 import { Separator } from '@/components/ui/separator';
 import { login } from '@/routes';
+import { create as waitlist } from '@/routes/waitlist';
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
@@ -67,6 +68,14 @@ const githubUrl =
                                 class="text-sm text-ivory/70 transition-colors hover:text-gold"
                             >
                                 Sign in
+                            </Link>
+                        </li>
+                        <li v-if="!user">
+                            <Link
+                                :href="waitlist()"
+                                class="text-sm text-ivory/70 transition-colors hover:text-gold"
+                            >
+                                Join the waitlist
                             </Link>
                         </li>
                         <li v-if="githubUrl">

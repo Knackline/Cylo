@@ -1,11 +1,17 @@
 <?php
 
+use App\Http\Controllers\WaitlistController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::middleware('guest')->group(function () {
     Route::inertia('/', 'Welcome')->name('home');
 });
+
+Route::get('waitlist', [WaitlistController::class, 'create'])->name('waitlist.create');
+Route::post('waitlist', [WaitlistController::class, 'store'])
+    ->middleware('throttle:6,1')
+    ->name('waitlist.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
